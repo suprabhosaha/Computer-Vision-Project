@@ -108,7 +108,7 @@ class CharacterClassifier:
         return accuracy
 
 class PrinterImageClassifier:
-    def __init__(self, model_path='character_classifier.pkl'):
+    def __init__(self, model_path='model/character_classifier.pkl'):
         self.classifier = joblib.load(model_path)
         self.extractor = ConnectedComponentsExtractor()
         
@@ -154,7 +154,7 @@ class PrinterImageClassifier:
         print(f"Classification results saved to {output_path}")
 
 if __name__ == "__main__":
-    classifier = PrinterImageClassifier(model_path='character_classifier.pkl')    
+    classifier = PrinterImageClassifier(model_path='model/character_classifier.pkl')    
     input_image = "data/2/Versalink_page (Copy 5).jpg"  # Change to your image path
     output_image = "classified_output.jpg"
     results = classifier.classify_image(input_image, output_image)

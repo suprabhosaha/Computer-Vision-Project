@@ -8,7 +8,7 @@ from pooling import ColumnPooling
 from ConnectedComponentExtraction import ConnectedComponentsExtractor
 
 class PrinterClassifier:
-    def __init__(self, num_columns=5, num_classes=3):
+    def __init__(self, num_columns=15, num_classes=3):
         self.num_columns = num_columns
         self.num_classes = num_classes
         self.svms = [SVC(kernel='linear', probability=True) for _ in range(num_columns)]
@@ -104,4 +104,4 @@ if __name__ == "__main__":
     classifier.evaluate(X_test, y_test)
 
     import joblib
-    joblib.dump(classifier, 'printer_classifier.pkl')
+    joblib.dump(classifier, 'model/printer_classifier.pkl')
