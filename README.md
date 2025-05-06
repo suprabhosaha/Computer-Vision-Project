@@ -1,4 +1,4 @@
-#  Source Printer Identification using PSLD and Component Feature Pooling
+#  Source Printer Identification using PSLTD and Component Feature Pooling
 
 This project implements a complete computer vision pipeline for **source printer identification** using connected component analysis, feature extraction, and classification. The method is based on a combination of **Printer Specific Local Texture Descriptor (PSLTD)** and Support Vector Classifiers (SVCs) as described in leading research on this topic.
 
@@ -22,14 +22,14 @@ The pipeline involves:
 | File/Folder                       | Description                                                    |
 | --------------------------------- | -------------------------------------------------------------- |
 | `ConnectedComponentExtraction.py` | Detects individual characters or blobs from scanned images     |
-| `ComponentFeatureExtractor.py`    | Extracts PSLD and other feature vectors from each component    |
+| `ComponentFeatureExtractor.py`    | Extracts PSLTD and other feature vectors from each component    |
 | `ColumnPooling.py`                | Pools features across components for page-level representation |
 | `main.py`                         | Executes full pipeline: extraction → pooling → classification  |
 | `requirements.txt`                | Lists required Python packages                                 |
 
 ---
 
-## PSLD: Printer Specific Local Texture Descriptor
+## PSLTD: Printer Specific Local Texture Descriptor
 
 A core strength of this project is its use of **PSLTD**, a hand-crafted descriptor developed for identifying the source of a printed document. PSLTD captures tiny distortions, ink distributions, and printer-specific textures that are not visible to the naked eye.
 
@@ -39,7 +39,7 @@ A core strength of this project is its use of **PSLTD**, a hand-crafted descript
 * **Printer Discriminative**: Tailored to distinguish between printers, not just general textures.
 * **Works Without OCR**: Uses binary image patches from character blobs directly.
 
-### How PSLD Is Used?
+### How PSLTD Is Used?
 
 1. **Component Extraction**:
 
