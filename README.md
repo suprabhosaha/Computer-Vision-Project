@@ -1,6 +1,6 @@
 #  Source Printer Identification using PSLD and Component Feature Pooling
 
-This project implements a complete computer vision pipeline for **source printer identification** using connected component analysis, feature extraction, and classification. The method is based on a combination of **Printer Specific Local Texture Descriptor (PSLD)** and Support Vector Classifiers (SVCs) as described in leading research on this topic.
+This project implements a complete computer vision pipeline for **source printer identification** using connected component analysis, feature extraction, and classification. The method is based on a combination of **Printer Specific Local Texture Descriptor (PSLTD)** and Support Vector Classifiers (SVCs) as described in leading research on this topic.
 
 ---
 
@@ -11,9 +11,9 @@ Printed documents contain subtle texture patterns introduced by the printer's ha
 The pipeline involves:
 
 1. **Connected Component Extraction** (isolating characters/letters)
-2. **Feature Extraction** (using PSLD and other texture descriptors)
+2. **Feature Extraction** (using PSLTD and other texture descriptors)
 3. **Pooling** (aggregating features across all characters)
-4. **Classification** (via 11 parallel SVCs trained on pooled features)
+4. **Classification** (via 15 parallel SVCs trained on pooled features)
 
 ---
 
@@ -31,15 +31,15 @@ The pipeline involves:
 
 ## PSLD: Printer Specific Local Texture Descriptor
 
-A core strength of this project is its use of **PSLD**, a hand-crafted descriptor developed for identifying the source of a printed document. PSLD captures tiny distortions, ink distributions, and printer-specific textures that are not visible to the naked eye.
+A core strength of this project is its use of **PSLTD**, a hand-crafted descriptor developed for identifying the source of a printed document. PSLTD captures tiny distortions, ink distributions, and printer-specific textures that are not visible to the naked eye.
 
-### What Makes PSLD Special?
+### What Makes PSLTD Special?
 
 * **Local Texture Focus**: Extracts fine-grained micro-patterns from small image patches.
 * **Printer Discriminative**: Tailored to distinguish between printers, not just general textures.
 * **Works Without OCR**: Uses binary image patches from character blobs directly.
 
-### How PSLD Is Used
+### How PSLD Is Used?
 
 1. **Component Extraction**:
 
@@ -48,16 +48,16 @@ A core strength of this project is its use of **PSLD**, a hand-crafted descripto
 
 2. **Feature Extraction**:
 
-   * For each component, PSLD and 10 other features are extracted to capture geometric and texture characteristics.
-   * Total of **11 features** per component.
+   * For each component, PSLTD features are extracted to capture geometric and texture characteristics.
+   * Total of **2 feature vector** per component.
 
 3. **Pooling**:
 
-   * Component-level features are aggregated using statistical pooling (e.g., mean or histogram pooling) to create a **single page-level feature vector per descriptor**.
+   * Component-level features are aggregated using average pooling column-wise to create a **page-level feature vector per column descriptor**.
 
 4. **Classification**:
 
-   * Each of the 11 feature types is used to train a separate **Support Vector Classifier (SVC)**.
+   * Each of the 15 columns is used to train a separate **Support Vector Classifier (SVC)**.
    * Final classification is based on **majority voting** or **score fusion** across all classifiers.
 
 ---
@@ -78,7 +78,7 @@ pip install -r requirements.txt
 ### Input
 
 * Scanned printed pages (preferably grayscale or binarized)
-* Recommended resolution: **300 dpi**
+* Recommended resolution: **300-600 dpi**
 
 ### Run the Full Pipeline
 
@@ -90,9 +90,9 @@ This will:
 
 * Load scanned images
 * Extract connected components
-* Compute PSLD & other features
+* Compute PSLTD & other features
 * Pool features
-* Train and test 11 SVC classifiers
+* Train and test 15 SVC classifiers
 
 ---
 
