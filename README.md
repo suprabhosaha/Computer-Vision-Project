@@ -99,17 +99,13 @@ This will:
 ## Key References
 
 * **[Source Printer Identification using Printer Specific Pooling of Letter Descriptors](https://arxiv.org/abs/2109.11139)**
-  *Ghosh, Singh, Nandi — 2021*
+  *Sharad Joshi, Yogesh Kumar Gupta, Nitin Khanna — 2021*
 
-* **[Source Printer Classification using Printer Specific Local Texture Descriptor (PSLD)](https://arxiv.org/pdf/1806.06650)**
-  *IEEE TIFS, 2018*
-
----
-
-## Future Work
-
-* Incorporate deep learning models for feature extraction (e.g., CNNs on component patches)
-* Extend classification to unknown printer detection
-* Support noisy or lower-resolution document scans
+* **[Source Printer Classification using Printer Specific Local Texture Descriptor](https://arxiv.org/abs/1806.06650)**
+  *Sharad Joshi, Nitin Khanna — 2018*
 
 ---
+
+## Contributors
+
+* Implemented by \[Suprabho Saha, Rahul, Anant Yadav, Manchi Vikranth]
