@@ -67,8 +67,8 @@ class ConnectedComponentsExtractor:
 
 # # Run extraction
 # bboxes, labels = extractor.extract(
-#     image_path="data/input/img5.jpg",
-#     output_path="data/output/output_components.jpg"
+#     image_path="data/2/Versalink_page.jpg",
+#     output_path="data/output_components.jpg"
 # )
-
+# # print(bboxes,labels)
 # print(f"Extracted {len(bboxes)} character components")
