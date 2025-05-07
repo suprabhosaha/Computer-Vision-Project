@@ -80,10 +80,15 @@ pip install -r requirements.txt
 * Scanned printed pages (preferably grayscale or binarized)
 * Recommended resolution: **300-600 dpi**
 
-### Run the Full Pipeline
+### Run the Training Pipeline
 
 ```bash
-python main.py
+python main.py --data_dir example_data --test_ratio 0.2
+```
+
+### Run tests
+```bash
+python test.py
 ```
 
 This will:
