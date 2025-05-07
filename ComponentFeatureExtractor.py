@@ -167,7 +167,6 @@ class ComponentFeatureExtractor:
                     EGm[i,j] = [EG0, EG1, EG2, EG3, EG4]
 
             EG.append(EGm)
-
         return EG
 
     def _compute_final_line_orientation(self, EI, EG):
@@ -196,12 +195,18 @@ class ComponentFeatureExtractor:
 
     def extract_features(self, component):
         ppv = self._compute_ppv(component)
+        # print("PPV shape:", ppv.shape)
         bpvs = self._compute_bpvs(ppv)
+        # print("BPVs shape:", bpvs.shape)
         EI = self._compute_ei(component)
+        # print("EI shape:", EI.shape)
         psi_m0, psi_m90 = self._compute_gabor_features(component)
         Gm = self._compute_gradient_orientation_similarity(psi_m0, psi_m90)
+        # print("Gm shape:", Gm[0].shape, Gm[1].shape, Gm[2].shape)
         EG = self._compute_egm(Gm)
+        # print("EG shape:")
         E_final = self._compute_final_line_orientation(EI, EG)
+        # print("E_final shape:")
 
         h, w, _ = ppv.shape
         F1 = np.zeros((3, 5, 5, 59), dtype=np.float32)
@@ -216,7 +221,7 @@ class ComponentFeatureExtractor:
                                 F1[m,k,l,bin_idx] += 1
 
         # (Eq.22) F1m,k,l(d)
-
+        # print("F1 shape:", len(F1), len(F1[0]), len(F1[0][0]), len(F1[0][0][0]))
         # BMPV calculation
         BMPV = []
 
@@ -225,20 +230,24 @@ class ComponentFeatureExtractor:
             padded_phi_v = np.pad(psi_m90[m], ((1,1),(1,1)), mode='constant')
 
             phi = np.sqrt(np.square(padded_phi_h[1:-1,1:-1]) + np.square(padded_phi_v[1:-1,1:-1]))
-
+ 
             bmpv = np.zeros((h,w,N), dtype=np.uint8)
-
+            
             for i in range(h):
                 for j in range(w):
-                    p = phi[i,j]
-                    neighbors = [phi[i+dy, j+dx] for dy, dx in kernel_offsets]
-
-                    for idx, neighbor in enumerate(neighbors):
+                    p = phi[i, j]
+                    for idx, (dy, dx) in enumerate(kernel_offsets):
+                        ni, nj = i + dy, j + dx
                         # (Eq.17) BMPVm(p)
-                        bmpv[i,j,idx] = int(neighbor >= p)
-
+                        if 0 <= ni < h and 0 <= nj < w:
+                            neighbor = phi[ni, nj]
+                            bmpv[i, j, idx] = int(neighbor >= p)
+                        else:
+                            bmpv[i, j, idx] = 0
+               
             BMPV.append(bmpv)
 
+        print("BMPV shape:", len(BMPV), len(BMPV[0]), len(BMPV[0][0]), len(BMPV[0][0][0]))
         # (Eq.18) FBMPV: Normalize histogram over BMPV
         FBMPV = []
 
@@ -246,5 +255,6 @@ class ComponentFeatureExtractor:
             hist = np.sum(BMPV[m], axis=(0,1))
             hist = hist / np.sum(hist) if np.sum(hist) > 0 else hist
             FBMPV.append(hist)
-
+        # print("FBMPV shape:")
+        
         return F1, FBMPV

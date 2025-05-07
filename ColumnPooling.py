@@ -18,6 +18,8 @@ class ColumnPooling:
         # Estimate P1 and P2 using median of 1% left-most and right-most coordinates
         P1 = int(np.median(x_mins[:k]))
         P2 = int(np.median(x_maxs[-k:]))
+        
+        print(f"Estimated P1: {P1}, P2: {P2}")
 
         return P1, P2
 
@@ -56,15 +58,24 @@ class ColumnPooling:
 
         return column_assignments
     
-    def extract_component_features(self, image: np.ndarray, bboxes: List[Tuple[int, int, int, int]]) -> List[np.ndarray]:
+    def extract_component_features(self, image, bboxes):
         extractor = ComponentFeatureExtractor()
         features = []
+        
+        print(f"Extracting features from {len(bboxes)} components")
 
         for (x, y, w, h) in bboxes:
             component_img = image[y:y+h, x:x+w]
+            print("Component image shape:", component_img.shape)
             f1, f_bmpv = extractor.extract_features(component_img)
-            combined = np.concatenate([f1, f_bmpv])
-            features.append(combined)
+            print("Feature shapes:")
+            F1_flattened = f1.reshape(-1)
+            FBMPV_flattened = np.concatenate(f_bmpv)
+            final_feature_vector = np.concatenate([F1_flattened, FBMPV_flattened])
+            print("Final feature vector shape:", final_feature_vector.shape)
+            features.append(final_feature_vector)
+            
+        print(f"Extracted {len(features)} features from components")
 
         return features
 
